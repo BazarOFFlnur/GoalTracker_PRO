@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidd="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/input_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите задачу" />
+
+    <EditText
+        android:id="@+id/taskSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Шагов выполнено"
+        android:text="0" />
+
+    <EditText
+        android:id="@+id/taskComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Шагов"
+        android:inputType="text"
+        android:text="1" />
+
+    <Switch
+        android:id="@+id/onlSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Совместное" />
+
+    <EditText
+        android:id="@+id/uid2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="электронная почта второго участника"
+        android:inputType="text"
+        tools:visibility="invisible" />
+
+</LinearLayout>

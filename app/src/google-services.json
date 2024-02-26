@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "538716671235",
+    "project_id": "goaltrackerpro-d309f",
+    "storage_bucket": "goaltrackerpro-d309f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538716671235:android:cd7d2caa17f5c16da1ad36",
+        "android_client_info": {
+          "package_name": "com.lightcore.goaltracker_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538716671235-p2l9ns746176vu79d19bi91k9o7qrg76.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightcore.goaltracker_pro",
+            "certificate_hash": "fa3d82d2de7525d91060f5ac2539d6e20faeb52d"
+          }
+        },
+        {
+          "client_id": "538716671235-vqpco9c67qipita8oq2kh8il1b68pa9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightcore.goaltracker_pro",
+            "certificate_hash": "64250f0fc2336d3ca0da16c99f6c71610db58003"
+          }
+        },
+        {
+          "client_id": "538716671235-0222kspavdalljj8g0k30rp91hbipejo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAhyvXFsgBVVR1EUFh6xo4gw-JjC6Srec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538716671235-0222kspavdalljj8g0k30rp91hbipejo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
