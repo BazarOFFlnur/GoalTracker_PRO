@@ -1,4 +1,4 @@
-package com.lightcore.main;
+package com.lightcore.goaltracker_pro.DoMain;
 
 public class DataModelDomain {
 

@@ -7,14 +7,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
+
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.ui.Model.DataModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnClickListener{
 
-    private ArrayList<DataModel> dataSet;
+    private LiveData<List<DataModel>> dataSet;
     Context mContext;
 
     // View lookup cache
@@ -26,8 +28,8 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         ProgressBar progressBar;
     }
 
-    public CustomAdapter(ArrayList<DataModel> data, Context context) {
-        super(context, R.layout.list_item, data);
+    public CustomAdapter(LiveData<List<DataModel>> data, Context context) {
+        super(context, R.layout.list_item, (List<DataModel>) data);
         this.dataSet = data;
         this.mContext=context;
 

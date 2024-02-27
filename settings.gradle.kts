@@ -17,5 +17,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "GoalTracker_PRO"
 include(":app")
-include(":Reposit")
-include(":main")

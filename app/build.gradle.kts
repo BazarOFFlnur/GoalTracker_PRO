@@ -3,8 +3,8 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id ("org.jetbrains.kotlin.android") version "1.9.20" apply false
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.kapt") version "1.9.22" apply false
+//    id("org.jetbrains.kotlin.kapt") version "1.9.22"
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -75,16 +75,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.0")
-    implementation(project(":main"))
-    implementation(project(":main"))
-    implementation(project(":Reposit"))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:<latest-version>")
 //    Hilt
     implementation("com.google.dagger:hilt-android:2.44")
-    implementation("com.google.dagger:hilt-android-compiler:3.10.1")
+//    implementation("com.google.dagger:hilt-android-compiler:2.44")
+    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
 //    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
 //kapt {

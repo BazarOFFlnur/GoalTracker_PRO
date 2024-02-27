@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -32,7 +33,7 @@ import com.lightcore.goaltracker_pro.ui.Model.DataModel;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.FragmentSlideshowBinding;
 import com.lightcore.goaltracker_pro.ui.stats.GalleryFragment;
-import com.lightcore.main.GetFirebaseInterface;
+import com.lightcore.goaltracker_pro.DoMain.GetFirebaseInterface;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -49,7 +51,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class SlideshowFragment extends Fragment {
     @Inject
-    GetFirebaseInterface getFirebaseInterface;
+    SlideshowViewModel slideshowViewModel;
 
     private FragmentSlideshowBinding binding;
     private FirebaseAuth mAuth;
@@ -64,14 +66,17 @@ public class SlideshowFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         SlideshowViewModel slideshowViewModel =
                 new ViewModelProvider(this).get(SlideshowViewModel.class);
-        Log.d("Fragment", getFirebaseInterface.toString());
         mAuth = FirebaseAuth.getInstance();
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        updateDB();
-        fdb = FirebaseFirestore.getInstance();
-
+//        updateDB();
+//        fdb = FirebaseFirestore.getInstance();
+        slideshowViewModel = new ViewModelProvider(this).get(SlideshowViewModel.class);
+        LiveData<List<DataModel>> data = slideshowViewModel.get();
+        data.observe(getViewLifecycleOwner(), dataModels -> {
+            adapter = new CustomAdapter(data, getContext());
+        });
 
         lv = root.findViewById(R.id.olv);
         lv.setAdapter(adapter);
@@ -175,7 +180,7 @@ public class SlideshowFragment extends Fragment {
         return root;
     }
     private void updateDB(){
-        adapter = new CustomAdapter(list2, getContext());
+//        adapter = new CustomAdapter(list2, getContext());
         CollectionReference collection = fdb.collection("tasx");
         if (mAuth.getCurrentUser()!=null){
             Query fquery = collection.where(Filter.or(
@@ -259,7 +264,7 @@ public class SlideshowFragment extends Fragment {
                                 inputFormat.format(d), prgr.intValue()));
                         adapter.notifyDataSetChanged();
                     } else if (list2.size() < i) {
-                        updateDB();
+//                        updateDB();
                     }
                     if (a[0] + 1 >= b[0]) {
                         Log.d("steps", "3");
