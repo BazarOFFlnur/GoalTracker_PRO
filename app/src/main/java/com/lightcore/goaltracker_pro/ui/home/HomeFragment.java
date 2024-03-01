@@ -28,7 +28,7 @@ import androidx.navigation.Navigation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.lightcore.goaltracker_pro.ui.Model.DataModel;
+//import com.lightcore.goaltracker_pro.ui.Model.DataModel;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.FragmentHomeBinding;
 
@@ -48,20 +48,20 @@ public class HomeFragment extends Fragment {
     private SQLiteDatabase db;
     private ListView lv;
     long d = System.currentTimeMillis();
-    ArrayList<DataModel> list2 = new ArrayList<>();
+//    ArrayList<DataModel> list2 = new ArrayList<>();
     SimpleCursorAdapter sca;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), dataModels -> {
-            for(int i = 0;
-            i<dataModels.size();
-            i++) {
-                Log.e("MVVM", dataModels.get(i).toString());
-            }
-        });
+//        HomeViewModel homeViewModel =
+//                new ViewModelProvider(this).get(HomeViewModel.class);
+//        homeViewModel.getText().observe(getViewLifecycleOwner(), dataModels -> {
+//            for(int i = 0;
+//            i<dataModels.size();
+//            i++) {
+//                Log.e("MVVM", dataModels.get(i).toString());
+//            }
+//        });
         mAuth = FirebaseAuth.getInstance();
         db = getContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS tasx (id INTEGER primary key autoincrement, name TEXT, complOn INTEGER, steps INTEGER, dates TEXT)");
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
                                                     data1.put("CompleteLast", String.valueOf(d));
                                                     data1.put("u2id", inputUID.getText().toString());
                                                     data1.put("uid", mAuth.getUid().toString());
-                                                    data1.put("TaskID", list2.size());
+//                                                    data1.put("TaskID", list2.size());
                                                     Integer a = Integer.valueOf(inpuSteps.getText().toString());
                                                     Integer b = Integer.valueOf(inputCompleted.getText().toString());
                                                     Float prgrs3 = (((float)a/b)*100);
@@ -129,10 +129,10 @@ public class HomeFragment extends Fragment {
                                                     Date s= cal.getTime();
                                                     DateFormat inputFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:mm:ss.SSS");
                                                     ref.document().set(data1).addOnSuccessListener(unused -> Log.d("addD", String.valueOf(data1.size()))).addOnFailureListener(e -> Log.e(String.valueOf(getContext()), e.getMessage().toString()));
-                                                    list2.add(new DataModel(inputName.getText().toString() ,"выполнено: "
-                                                            + inpuSteps.getText().toString(),
-                                                            inputCompleted.getText().toString()+"     "+prgrs3.intValue()+"% ",
-                                                            inputFormat.format(s), prgrs3.intValue()));
+//                                                    list2.add(new DataModel(inputName.getText().toString() ,"выполнено: "
+//                                                            + inpuSteps.getText().toString(),
+//                                                            inputCompleted.getText().toString()+"     "+prgrs3.intValue()+"% ",
+//                                                            inputFormat.format(s), prgrs3.intValue()));
                                                 }
                                             }
                                         }

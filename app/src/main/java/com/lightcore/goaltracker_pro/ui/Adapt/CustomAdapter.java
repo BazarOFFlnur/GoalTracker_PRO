@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnClickListener{
 
-    private LiveData<List<DataModel>> dataSet;
+    private List<DataModel> dataSet;
     Context mContext;
 
     // View lookup cache
@@ -28,8 +28,8 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         ProgressBar progressBar;
     }
 
-    public CustomAdapter(LiveData<List<DataModel>> data, Context context) {
-        super(context, R.layout.list_item, (List<DataModel>) data);
+    public CustomAdapter(List<DataModel> data, Context context) {
+        super(context, R.layout.list_item, data);
         this.dataSet = data;
         this.mContext=context;
 

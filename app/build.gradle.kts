@@ -3,7 +3,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id ("org.jetbrains.kotlin.android") version "1.9.20" apply false
-//    id("org.jetbrains.kotlin.kapt") version "1.9.22"
     id("com.google.dagger.hilt.android")
 
 }
@@ -81,9 +80,7 @@ dependencies {
     coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:<latest-version>")
 //    Hilt
     implementation("com.google.dagger:hilt-android:2.44")
-//    implementation("com.google.dagger:hilt-android-compiler:2.44")
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
 //kapt {
 //    correctErrorTypes = true

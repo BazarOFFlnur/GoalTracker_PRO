@@ -3,27 +3,20 @@ package com.lightcore.goaltracker_pro.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -31,10 +24,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.CollectionReference;
-import com.lightcore.goaltracker_pro.R;
-import com.lightcore.goaltracker_pro.databinding.ActivityNavnavBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -49,15 +38,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+//import com.lightcore.goaltracker_pro.test.Tefs;
+import com.lightcore.goaltracker_pro.R;
+import com.lightcore.goaltracker_pro.databinding.ActivityNavnavBinding;
+import com.lightcore.goaltracker_pro.ui.testr.Sec;
+import com.lightcore.goaltracker_pro.ui.testr.Tsd;
+//import com.lightcore.goaltracker_pro.ui.testr.Tasf;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+//import dagger.hilt.android.AndroidEntryPoint;
+@AndroidEntryPoint
 public class navnav extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -69,6 +64,8 @@ public class navnav extends AppCompatActivity {
     TextView demail, dname;
     SignInButton mSignInButton;
     ListView lv;
+    @Inject
+    Tsd tsd;
 
 
 
@@ -76,6 +73,10 @@ public class navnav extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+//        Tasf tasf;
+        Log.d("RSd", tsd.exec());
 
         mAuth = FirebaseAuth.getInstance();
         binding = ActivityNavnavBinding.inflate(getLayoutInflater());

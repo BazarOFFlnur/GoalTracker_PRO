@@ -22,7 +22,7 @@ import android.widget.ListView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.lightcore.goaltracker_pro.R;
-import com.lightcore.goaltracker_pro.ui.Model.DataModel;
+//import com.lightcore.goaltracker_pro.ui.Model.DataModel;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class ItemFragment extends Fragment {
     private FirebaseAuth mAuth;
     private final FirebaseFirestore fdb = FirebaseFirestore.getInstance();
     private SQLiteDatabase db;
-    ArrayList<DataModel> list = new ArrayList<>();
+//    ArrayList<DataModel> list = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

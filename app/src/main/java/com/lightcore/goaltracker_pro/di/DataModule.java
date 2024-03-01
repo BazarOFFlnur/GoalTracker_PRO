@@ -1,31 +1,54 @@
 package com.lightcore.goaltracker_pro.di;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.lightcore.goaltracker_pro.DataSource.GetFirebase;
+import com.lightcore.goaltracker_pro.DataSource.SetFirebase;
 import com.lightcore.goaltracker_pro.DoMain.GetDataFrbs;
-import com.lightcore.goaltracker_pro.DoMain.GetFirebaseInterface;
-import com.lightcore.goaltracker_pro.ui.onlTasx.SlideshowViewModel;
+import com.lightcore.goaltracker_pro.DoMain.SetDataFirebase;
+import com.lightcore.goaltracker_pro.ui.testr.Sec;
+import com.lightcore.goaltracker_pro.ui.testr.Tsd;
+//import com.lightcore.goaltracker_pro.DataSource.GetFirebase;
+//import com.lightcore.goaltracker_pro.DoMain.GetDataFrbs;
+//import com.lightcore.goaltracker_pro.DoMain.GetFirebaseInterface;
 
-import javax.inject.Singleton;
-
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.android.components.ViewModelComponent;
+import dagger.hilt.android.scopes.ViewModelScoped;
+import dagger.hilt.components.SingletonComponent;
 
 @Module
-@InstallIn(ViewModelComponent.class)
+@InstallIn(SingletonComponent.class)
 public class DataModule {
-//    @Provides
-//    public GetFirebase provideGetFirebase(){return new GetFirebase();}
-@Provides
-@Singleton
-public GetFirebaseInterface provideGetFirebaseInterface() {return new GetFirebase();}
+
     @Provides
-    @Singleton
-    public GetDataFrbs provideGetDataFrbs(GetFirebaseInterface getFirebaseInterface){return new GetDataFrbs(getFirebaseInterface);}
+    public Tsd provideTsd(Sec sec){
+        return new Tsd(sec);
+    }
     @Provides
-    @Singleton
-    public SlideshowViewModel provideSViewModel(GetDataFrbs getDataFrbs){return new SlideshowViewModel(getDataFrbs);}
+    public Sec provideSec(){
+        return new Sec();
+    }
+
+    @Provides
+    public GetDataFrbs provideGetDataFrbs(GetFirebase getFirebase) {
+        return new GetDataFrbs(getFirebase);
+
+    }
+    @Provides
+    public GetFirebase provdeGetFirebase() {
+        return new GetFirebase();
+    }
+
+    @Provides
+    public SetDataFirebase provideSetDataFirebase(SetFirebase setFirebase){
+        return new SetDataFirebase(setFirebase);
+    }
+    @Provides
+    public SetFirebase provideSetFirebase(){
+        return new SetFirebase();
+    }
 }
+
