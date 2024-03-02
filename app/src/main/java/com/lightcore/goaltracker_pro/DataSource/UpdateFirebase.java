@@ -24,15 +24,18 @@ public class UpdateFirebase {
     private final FirebaseFirestore fdb = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
     String iid;
-    public boolean updateFirebase(int i){
-        fdb.collection("tasx").where(Filter.or(
-                Filter.equalTo("uid", mAuth.getUid().toString()),
-                Filter.greaterThanOrEqualTo("u2id", mAuth.getUid().toString()
-                ), Filter.equalTo("TaskID", i)
-        )).get();
-        final Integer[] a = new Integer[1];
-        final Integer[] b = new Integer[1];
-        final String[] dat = new String[1];
-        return true;
+    public boolean updateFirebase(QueryDocumentSnapshot doc){
+        DocumentReference ref = fdb.collection("tasx").document(doc.getId());
+        int a = Integer.parseInt(doc.getData().get("TaskSteps").toString());
+        int b = Integer.parseInt(doc.getData().get("TaskCompleted").toString());
+        if (a+1<b){
+            Map<String, Object> ps = new HashMap<>();
+            ps.put("TaskSteps", a+1);
+            ps.put("CompleteLast", doc.getData().get("CompleteLast").toString() + "_" + System.currentTimeMillis());
+            Log.d("UPD", "ds");
+            return ref.update(ps).isSuccessful();
+        } else
+            Log.d("Delete", "ds");
+            return ref.delete().isSuccessful();
     }
 }

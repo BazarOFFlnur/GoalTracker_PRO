@@ -1,5 +1,6 @@
 package com.lightcore.goaltracker_pro.DoMain;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.lightcore.goaltracker_pro.DataSource.UpdateFirebase;
 
 public class CompleteTask {
@@ -7,8 +8,7 @@ public class CompleteTask {
     public CompleteTask(UpdateFirebase updateFirebase){
         this.updateFirebase=updateFirebase;
     }
-    public boolean execute(int i){
-
-        return true;
+    public boolean execute(QueryDocumentSnapshot doc){
+        return updateFirebase.updateFirebase(doc);
     }
 }

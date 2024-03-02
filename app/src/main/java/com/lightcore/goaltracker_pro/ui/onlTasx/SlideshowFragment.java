@@ -85,11 +85,18 @@ public class SlideshowFragment extends Fragment {
             Log.d("DAta", data.getValue().toString());
             adapter.notifyDataSetChanged();
             lv.setAdapter(adapter);
+            Log.d("HashData", String.valueOf(data.hashCode()));
         });
         lv = root.findViewById(R.id.olv);
         lv.setOnItemClickListener((parent, view, position, id) ->{
-                onCompliteTask((int) id);
-                Log.d("TAS", String.valueOf(parent.getId())+ String.valueOf(parent.hashCode()));
+//                onCompliteTask((int) id);
+            boolean s = slideshowViewModel.ItemComplete((int)id);
+            if (s){
+                slideshowViewModel.get();
+                Log.d("msg", "s=true");
+            }
+            slideshowViewModel.get();
+                Log.d("item id", String.valueOf(id));
                 });
         lv.setOnItemLongClickListener((parent, view, position, id) -> {
             Bundle bundle = new Bundle();
@@ -147,7 +154,7 @@ public class SlideshowFragment extends Fragment {
                                                 data1.put("TaskCompleted", inputCompleted.getText().toString());
                                                 data1.put("CompleteLast", String.valueOf(d));
                                                 data1.put("u2id", inputUID.getText().toString());
-                                                data1.put("uid", mAuth.getUid().toString());
+                                                data1.put("uid", mAuth.getUid());
 //                                                data1.put("TaskID", list2.size());
                                                 Integer a = Integer.valueOf(inpuSteps.getText().toString());
                                                 Integer b = Integer.valueOf(inputCompleted.getText().toString());
@@ -159,7 +166,8 @@ public class SlideshowFragment extends Fragment {
                                                 Date s= cal.getTime();
                                                 DateFormat inputFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:mm:ss.SSS");
 //                                                ref.document().set(data1).addOnSuccessListener(unused -> Log.d("addD", String.valueOf(data1.size()))).addOnFailureListener(e -> Log.e(String.valueOf(getContext()), e.getMessage().toString()));
-                                                slideshowViewModel.set(data1);
+                                                boolean e = slideshowViewModel.set(data1);
+                                                    slideshowViewModel.get();
 
                                             }
                                         }
@@ -188,8 +196,8 @@ public class SlideshowFragment extends Fragment {
         CollectionReference collection = fdb.collection("tasx");
         if (mAuth.getCurrentUser()!=null){
             Query fquery = collection.where(Filter.or(
-                    Filter.equalTo("uid", mAuth.getCurrentUser().getUid().toString()),
-                    Filter.greaterThanOrEqualTo("u2id", mAuth.getCurrentUser().getEmail().toString())
+                    Filter.equalTo("uid", mAuth.getCurrentUser().getUid()),
+                    Filter.greaterThanOrEqualTo("u2id", mAuth.getCurrentUser().getEmail())
             ));
             fquery.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -213,15 +221,15 @@ public class SlideshowFragment extends Fragment {
     private void onCompliteTask(Integer i) {
             Log.d("steps", "0.1");
             Query fquery = fdb.collection("tasx").where(Filter.or(
-                    Filter.equalTo("uid", mAuth.getUid().toString()),
-                    Filter.greaterThanOrEqualTo("u2id", mAuth.getUid().toString()
+                    Filter.equalTo("uid", mAuth.getUid()),
+                    Filter.greaterThanOrEqualTo("u2id", mAuth.getUid()
                     ), Filter.equalTo("TaskID", i - list2.size())
             ));
             final Integer[] a = new Integer[1];
             final Integer[] b = new Integer[1];
             final String[] dat = new String[1];
             fquery.get().addOnCompleteListener(task -> {
-                String res = new String();
+                String res = "";
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Log.d("steps", "3");
                     iid = document.getId();
@@ -270,7 +278,7 @@ public class SlideshowFragment extends Fragment {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.e(getTag(), e.getMessage().toString());
+                    Log.e(getTag(), e.getMessage());
                 }
             });
     }

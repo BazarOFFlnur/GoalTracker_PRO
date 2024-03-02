@@ -1,19 +1,13 @@
 package com.lightcore.goaltracker_pro.ui.onlTasx;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.lightcore.goaltracker_pro.DataSource.GetFirebase;
+import com.lightcore.goaltracker_pro.DoMain.CompleteTask;
 import com.lightcore.goaltracker_pro.DoMain.GetDataFrbs;
 import com.lightcore.goaltracker_pro.DoMain.SetDataFirebase;
 import com.lightcore.goaltracker_pro.ui.Model.DataModel;
@@ -27,22 +21,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.android.scopes.ViewModelScoped;
+
 @HiltViewModel
 public class SlideshowViewModel extends ViewModel {
 GetDataFrbs getDataFrbs;
 SetDataFirebase setDataFirebase;
-HashMap<Integer, String> map = new HashMap<>();
+CompleteTask completeTask;
+HashMap<String, Integer> map = new HashMap<>();
+List<QueryDocumentSnapshot> documentSnapshot = new ArrayList<>();
+MutableLiveData<List<DataModel>> data = new MutableLiveData<>();
     @Inject
-    SlideshowViewModel(GetDataFrbs getDataFrbs, SetDataFirebase setDataFirebase){
+    SlideshowViewModel(GetDataFrbs getDataFrbs, SetDataFirebase setDataFirebase, CompleteTask completeTask){
         this.getDataFrbs=getDataFrbs;
         this.setDataFirebase=setDataFirebase;
+        this.completeTask = completeTask;
     }
 
     public boolean set(Map<String, Object> map){
@@ -50,10 +46,10 @@ HashMap<Integer, String> map = new HashMap<>();
     }
 
     public LiveData<List<DataModel>> get() {
-        MutableLiveData<List<DataModel>> data = new MutableLiveData<>();
         ArrayList<DataModel> list = new ArrayList<>();
         getDataFrbs.execute().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                documentSnapshot.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     int a = Integer.parseInt(document.get("TaskSteps").toString());
                     int b = Integer.parseInt(document.get("TaskCompleted").toString());
@@ -67,14 +63,25 @@ HashMap<Integer, String> map = new HashMap<>();
                     Log.d("LSD", document.get("TaskName").toString());
                     list.add(new DataModel(document.get("TaskName").toString(), document.get("TaskSteps").toString(),
                             document.get("TaskCompleted").toString() + "     " + (int) prgrs2 + "% ", inputFormat.format(d), (int) prgrs2));
-                    map.put(list.size()-1, document.getId());
+                    documentSnapshot.add(document);
                     Log.d("asd", list.size()+map.values().toString());
+                    Log.d("asd", list.size()+String.valueOf(map.hashCode()));
                 }
                 data.setValue(list);
+                Log.d("HashdataVM", String.valueOf(data.getValue().hashCode()));
             } else {
                 Log.d("ERR", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
             }
         });
         return data;
+    }
+
+    public boolean ItemComplete(int id){
+            if (0 <= id && id < documentSnapshot.size()) {
+                QueryDocumentSnapshot doc = documentSnapshot.get(id);
+                Log.d("DocID", doc.getData().get("TaskName").toString()+ doc.getId());
+                return completeTask.execute(doc);
+            }
+        return false;
     }
 }
