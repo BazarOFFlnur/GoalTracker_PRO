@@ -1,8 +1,6 @@
 package com.lightcore.goaltracker_pro.DoMain;
 
-import com.lightcore.goaltracker_pro.DataSource.GetFirebase;
 import com.lightcore.goaltracker_pro.DataSource.SetFirebase;
-import com.lightcore.goaltracker_pro.ui.Model.DataModel;
 
 import java.util.Map;
 

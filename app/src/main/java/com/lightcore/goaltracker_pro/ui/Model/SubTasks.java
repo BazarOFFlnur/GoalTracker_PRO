@@ -11,6 +11,7 @@ public class SubTasks {
         this.progress=progress;
     }
 
+    public SubTasks(){}
     public String getName() {
         return this.name;
     }

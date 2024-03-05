@@ -1,4 +1,5 @@
 package com.lightcore.goaltracker_pro.ui.Adapt;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,16 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
-
 import com.lightcore.goaltracker_pro.R;
-import com.lightcore.goaltracker_pro.ui.Model.DataModel;
+import com.lightcore.goaltracker_pro.ui.Model.DataGetModelTasks;
 
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnClickListener{
+public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements View.OnClickListener{
 
-    private List<DataModel> dataSet;
+    private List<DataGetModelTasks> dataSet;
     Context mContext;
 
     // View lookup cache
@@ -28,7 +27,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         ProgressBar progressBar;
     }
 
-    public CustomAdapter(List<DataModel> data, Context context) {
+    public CustomAdapter(List<DataGetModelTasks> data, Context context) {
         super(context, R.layout.list_item, data);
         this.dataSet = data;
         this.mContext=context;
@@ -40,7 +39,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
 
         int position=(Integer) v.getTag();
         Object object= getItem(position);
-        DataModel dataModel=(DataModel)object;
+        DataGetModelTasks dataModel=(DataGetModelTasks)object;
 
 //        switch (v.getId())
 //        {
@@ -56,7 +55,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        DataModel dataModel = getItem(position);
+        DataGetModelTasks dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 

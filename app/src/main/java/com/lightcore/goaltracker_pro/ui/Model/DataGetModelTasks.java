@@ -1,18 +1,14 @@
 package com.lightcore.goaltracker_pro.ui.Model;
 
-import java.util.List;
-
-public class DataModel {
-
+public class DataGetModelTasks {
     String name;
     String type;
     String stp;
     String _id;
     Integer prgrs;
-    List<SubTasks> subTasksList;
+    SubTasks subTasksList;
 
-
-    public DataModel(String name, String type, String stp, String id, int prgrs, List<SubTasks> subTasksList) {
+    public DataGetModelTasks(String name, String type, String stp, String id, int prgrs, SubTasks subTasksList) {
         this.name=name;
         this.type= type;
         this.stp = stp;
@@ -21,7 +17,6 @@ public class DataModel {
         this.subTasksList=subTasksList;
     }
 
-    public DataModel(){}
     public String getName() {
         return name;
     }
@@ -34,5 +29,4 @@ public class DataModel {
         return _id;
     }
     public Integer getPrgrs(){return prgrs;}
-    public List<SubTasks> getSubTasksList() {return subTasksList;}
 }
