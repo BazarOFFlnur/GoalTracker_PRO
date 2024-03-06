@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="13dp"
-                android:text="выполнено: "
+                android:text="@string/completed"
                 android:textSize="9sp" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" из "
+                android:text="@string/out_of"
                 android:textSize="9sp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="последнее: "
+                android:text="@string/last"
                 android:textSize="9sp" />
 
             <TextView

@@ -1,7 +1,14 @@
 package com.lightcore.goaltracker_pro.ui.onlTasx;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +62,7 @@ public class SlideshowFragment extends Fragment {
     CustomAdapter adapter;
     private ListView lv;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
@@ -100,6 +108,7 @@ public class SlideshowFragment extends Fragment {
         final EditText inputCompleted = promptsView.findViewById(R.id.taskComplete);
         final Switch sw = promptsView.findViewById(R.id.onlSwitch);
         final EditText inputUID = promptsView.findViewById(R.id.uid2);
+        final EditText inputTime = promptsView.findViewById(R.id.editTextTime);
         inputUID.setVisibility(View.INVISIBLE);
         sw.setOnCheckedChangeListener((buttonView, isChecked12) -> {
             if(isChecked12) {
@@ -142,6 +151,13 @@ public class SlideshowFragment extends Fragment {
                                                 cal.setTimeInMillis(Long.valueOf(l));
                                                 Date s= cal.getTime();
                                                 DateFormat inputFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:mm:ss.SSS");
+//                                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                                                alarmManager.setInexactRepeating(
+//                                                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                                                        SystemClock.elapsedRealtime() + inputTime.getText().toString(),
+//                                                        AlarmManager.INTERVAL_DAY,
+//                                                        PendingIntent.getService(getContext(), 0, new Intent(getContext(), ))
+//                                                );
 //                                                ref.document().set(data1).addOnSuccessListener(unused -> Log.d("addD", String.valueOf(data1.size()))).addOnFailureListener(e -> Log.e(String.valueOf(getContext()), e.getMessage().toString()));
                                                 boolean e = slideshowViewModel.set(data1);
                                                     slideshowViewModel.get();

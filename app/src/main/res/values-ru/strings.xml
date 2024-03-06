@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">GoalTracker_PRO</string>
+    <string name="action_settings">Выйти</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="default_web_client_id" translatable="false">538716671235-3hkdhpjemi8qc2abbo8k3rvb4kfgktk0.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_navnav">GoalTracker_PRO</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Задачи</string>
+    <string name="menu_gallery">Статистика</string>
+    <string name="menu_slideshow">Онлайн задачи</string>
+    <string name="action_feedback">Отзыв</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="input_task_name">Введите задачу</string>
+    <string name="steps_completed">Шагов выполнено</string>
+    <string name="steps_for_complete">Шагов</string>
+    <string name="together">Совместное</string>
+    <string name="email_second_user">электронная почта второго участника</string>
+    <string name="input_sub_task_name">Введите подзадачу</string>
+    <string name="steps_sub_task">Шагов</string>
+    <string name="completed">выполнено:</string>
+    <string name="out_of">из</string>
+    <string name="last">последнее:</string>
+</resources>

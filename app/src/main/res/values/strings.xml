@@ -2,19 +2,14 @@
     <string name="app_name">GoalTracker_PRO</string>
     <string name="action_settings">Sign out</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="default_web_client_id" translatable="false">538716671235-3hkdhpjemi8qc2abbo8k3rvb4kfgktk0.apps.googleusercontent.com</string>
-    <string name="title_activity_maps">MapsActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_navnav">GoalTracker_PRO</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">GoalTracker_PRO</string>
+    <string name="nav_header_subtitle">you`re@mail</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="menu_home">Tasks</string>
@@ -22,5 +17,14 @@
     <string name="menu_slideshow">Online Tasks</string>
     <string name="action_feedback">Feedback\n</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_task_name">Enter a task</string>
+    <string name="steps_completed">Steps completed</string>
+    <string name="steps_for_complete">Number of steps to complete</string>
+    <string name="together">Together</string>
+    <string name="email_second_user">second participants email</string>
+    <string name="input_sub_task_name">Enter a subtask</string>
+    <string name="steps_sub_task">Steps to complete</string>
+    <string name="completed">completed:</string>
+    <string name="out_of">out of</string>
+    <string name="last">last:</string>
 </resources>

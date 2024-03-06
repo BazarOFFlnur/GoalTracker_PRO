@@ -12,14 +12,14 @@
         android:id="@+id/inpName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите подзадачу" />
+        android:hint="@string/input_sub_task_name" />
 
     <EditText
         android:id="@+id/inpProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Шагов"
+        android:hint="@string/steps_sub_task"
         android:inputType="text"
         android:text="1" />
 

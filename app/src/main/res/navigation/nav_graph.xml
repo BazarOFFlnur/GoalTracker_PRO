@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.lightcore.goaltracker_pro.ui.home.HomeFragment"
-        android:label="@string/first_fragment_label"
+        android:label="first"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.lightcore.goaltracker_pro.ui.ItemFragment"
-        android:label="@string/second_fragment_label"
+        android:label="first"
         tools:layout="@layout/fragment_item_list">
     </fragment>
     <fragment

@@ -12,13 +12,13 @@
         android:id="@+id/input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите задачу" />
+        android:hint="@string/input_task_name" />
 
     <EditText
         android:id="@+id/taskSteps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Шагов выполнено"
+        android:hint="@string/steps_completed"
         android:text="0" />
 
     <EditText
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Шагов"
+        android:hint="@string/steps_for_complete"
         android:inputType="text"
         android:text="1" />
 
@@ -34,15 +34,22 @@
         android:id="@+id/onlSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Совместное" />
+        android:text="@string/together" />
 
     <EditText
         android:id="@+id/uid2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="электронная почта второго участника"
+        android:hint="@string/email_second_user"
         android:inputType="text"
         tools:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time" />
 
 </LinearLayout>
