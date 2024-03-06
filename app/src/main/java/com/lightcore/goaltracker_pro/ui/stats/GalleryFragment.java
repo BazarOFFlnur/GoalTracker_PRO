@@ -60,11 +60,6 @@ public class GalleryFragment extends Fragment {
         List<BarEntry> entries = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         calendarView = root.findViewById(R.id.cvv);
-        Bundle bundle = getArguments();
-        if (bundle!=null) {
-            int id = bundle.getInt("id");
-            Integer idd = bundle.getInt("idd");
-            Log.d("id", Integer.toString(id));
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -72,7 +67,7 @@ public class GalleryFragment extends Fragment {
                     Query fquery = fdb.collection("tasx").where(Filter.or(
                             Filter.equalTo("uid", mAuth.getCurrentUser().getUid().toString()),
                             Filter.greaterThanOrEqualTo("u2id", mAuth.getCurrentUser().getEmail().toString()
-                            ), Filter.equalTo("TaskID", idd)
+                            )
                     ));
                     final String[] dat = new String[1];
                     fquery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -92,6 +87,20 @@ public class GalleryFragment extends Fragment {
                                     Log.d("Day type", cal.getTime().toString());
                                     CalendarDay day = CalendarDay.from(cal);
                                     set.add(day);
+                    entries.add(new BarEntry(day.getDay(), arr.length));
+                    Log.d("entri", entries.get(0).toString());
+                    BarDataSet dataSet = new BarDataSet((List<BarEntry>) entries, "Task"); // add entries to dataset
+                    dataSet.setColor(Color.GREEN);
+                    dataSet.setValueTextColor(Color.GREEN);
+                    BarData lineData = new BarData(dataSet);
+//                        lineData.setBarWidth(0.45f);
+//                        chart.setAutoScaleMinMaxEnabled(true);
+//                        chart.setKeepPositionOnRotation(true);
+
+                    chart.setData(lineData);
+//                        chart.groupBars(day.getDay(), 0.06f, 0.02f);
+                    chart.invalidate();// styling, ...
+                    Log.w("das", set.toString());
                                     Log.w("das", set.toString());
                                     Log.d("TAS", String.valueOf(arr.length));
                                     EventDecorator eventDecorator = new EventDecorator(set);
@@ -109,77 +118,6 @@ public class GalleryFragment extends Fragment {
                 }
             });
             thread.start();
-            Cursor query = db.rawQuery("SELECT dates FROM tasx WHERE id =" + id, null);
-            while (query.moveToNext()) {
-                String d = query.getString(0);
-                Log.d("dates", d);
-                String[] arr = null;
-                if (d!=null){
-                arr = d.split("_");
-                HashSet<CalendarDay> set = new HashSet<>();
-                for (int x = 0; x < arr.length; x++) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis(Long.valueOf(arr[x]));
-                    CalendarDay day = CalendarDay.from(cal);
-                    set.add(day);
-                    entries.add(new BarEntry(day.getDay(), arr.length));
-                    Log.d("entri", entries.get(0).toString());
-                    BarDataSet dataSet = new BarDataSet((List<BarEntry>) entries, "Task"); // add entries to dataset
-                    dataSet.setColor(Color.GREEN);
-                    dataSet.setValueTextColor(Color.GREEN);
-                    BarData lineData = new BarData(dataSet);
-//                        lineData.setBarWidth(0.45f);
-//                        chart.setAutoScaleMinMaxEnabled(true);
-//                        chart.setKeepPositionOnRotation(true);
-
-                    chart.setData(lineData);
-//                        chart.groupBars(day.getDay(), 0.06f, 0.02f);
-                    chart.invalidate();// styling, ...
-                    Log.w("das", set.toString());
-                    EventDecorator eventDecorator = new EventDecorator(set);
-                    calendarView.addDecorator(eventDecorator);
-                    calendarView.invalidateDecorators();
-//                    Set<CalendarDay> set = new HashSet<CalendarDay>(Arrays.asList(arr));
-                    Log.w("sdsd",set.toString());
-                }}}
-            }
-        //если переход по меню
-         else {
-            Cursor query1 = db.rawQuery("SELECT dates FROM tasx", null);
-            while (query1.moveToNext()) {
-                String d = query1.getString(0);
-                Log.d("id", d);
-                String[] arr = null;
-                if(d!=null) {
-                    arr = d.split("_");
-                    HashSet<CalendarDay> set = new HashSet<>();
-                    for (int x = 0; x < arr.length; x++) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.valueOf(arr[x]));
-                        CalendarDay day = CalendarDay.from(cal);
-                        set.add(day);
-                        Log.d("Day type", cal.getTime().toString());
-                        entries.add(new BarEntry(day.getDay(), arr.length));
-                        Log.d("entri", entries.get(0).toString());
-                        BarDataSet dataSet = new BarDataSet((List<BarEntry>) entries, "Task"); // add entries to dataset
-                        dataSet.setColor(Color.GREEN);
-                        dataSet.setValueTextColor(Color.GREEN);
-                        BarData lineData = new BarData(dataSet);
-//                        lineData.setBarWidth(0.45f);
-//                        chart.setAutoScaleMinMaxEnabled(true);
-//                        chart.setKeepPositionOnRotation(true);
-
-                        chart.setData(lineData);
-//                        chart.groupBars(day.getDay(), 0.06f, 0.02f);
-                        chart.invalidate();// styling, ...
-                        Log.w("das", set.toString());
-
-                        EventDecorator eventDecorator = new EventDecorator(set);
-                        calendarView.addDecorator(eventDecorator);
-                        calendarView.invalidateDecorators();
-                    }
-                }
-            }
             Thread r = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -223,7 +161,6 @@ public class GalleryFragment extends Fragment {
                 }
             });
             r.start();
-        }
             return root;
         }
     }
