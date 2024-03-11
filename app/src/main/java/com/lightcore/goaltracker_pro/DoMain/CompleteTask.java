@@ -1,5 +1,7 @@
 package com.lightcore.goaltracker_pro.DoMain;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.lightcore.goaltracker_pro.DataSource.UpdateFirebase;
 
@@ -8,7 +10,7 @@ public class CompleteTask {
     public CompleteTask(UpdateFirebase updateFirebase){
         this.updateFirebase=updateFirebase;
     }
-    public boolean execute(QueryDocumentSnapshot doc){
-        return updateFirebase.updateFirebase(doc);
+    public Task<DocumentSnapshot> execute(QueryDocumentSnapshot doc, UpdateCallback callback){
+        return updateFirebase.updateFirebase(doc, callback);
     }
 }

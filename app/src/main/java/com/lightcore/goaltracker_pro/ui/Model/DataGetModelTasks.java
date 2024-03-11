@@ -17,6 +17,7 @@ public class DataGetModelTasks {
         this.subTasksList=subTasksList;
     }
 
+    public DataGetModelTasks(){}
     public String getName() {
         return name;
     }

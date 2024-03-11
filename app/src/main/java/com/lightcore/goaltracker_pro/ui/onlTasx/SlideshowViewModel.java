@@ -4,25 +4,21 @@ import static com.android.volley.VolleyLog.TAG;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.lightcore.goaltracker_pro.DoMain.CompleteTask;
 import com.lightcore.goaltracker_pro.DoMain.GetDataFrbs;
 import com.lightcore.goaltracker_pro.DoMain.GetSubs;
 import com.lightcore.goaltracker_pro.DoMain.SetDataFirebase;
 import com.lightcore.goaltracker_pro.DoMain.SetSubTasx;
+import com.lightcore.goaltracker_pro.DoMain.UpdateCallback;
 import com.lightcore.goaltracker_pro.ui.Model.DataGetModelTasks;
 import com.lightcore.goaltracker_pro.ui.Model.SubTasks;
 
@@ -36,7 +32,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
@@ -53,6 +48,7 @@ List<QueryDocumentSnapshot> documentSnapshot = new ArrayList<>();
 List<QueryDocumentSnapshot> subdocsnap = new ArrayList<>();
 MutableLiveData<List<DataGetModelTasks>> data = new MutableLiveData<>();
 MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
+MutableLiveData<List<String>> dates = new MutableLiveData<>();
     @Inject
     SlideshowViewModel(GetDataFrbs getDataFrbs, SetDataFirebase setDataFirebase, CompleteTask completeTask, GetSubs getSubs, SetSubTasx setSubTasx){
         this.getDataFrbs=getDataFrbs;
@@ -62,6 +58,7 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
         this.setSubTasx=setSubTasx;
     }
 
+    public MutableLiveData<List<String>> getDates(){return dates;}
     public void completeSubTask(int id){
         CollectionReference reference = FirebaseFirestore.getInstance().collection("subtasx");
         reference.document(subdocsnap.get(id).getId()).delete();
@@ -77,7 +74,7 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
 
     public MutableLiveData<List<DataGetModelTasks>> get() {
         ArrayList<DataGetModelTasks> list = new ArrayList<>();
-        final List<SubTasks>[] list1 = new List[]{new ArrayList<>()};
+        final List<String> list1 = new ArrayList<>();
         getDataFrbs.execute().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 documentSnapshot.clear();
@@ -87,6 +84,7 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
                     float prgrs2 = (((float) a / b) * 100);
                     String last = document.get("CompleteLast").toString();
                     String l = last.substring(last.lastIndexOf('_') + 1);
+                    list1.add(l);
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(Long.parseLong(l));
                     Date d = cal.getTime();
@@ -107,6 +105,7 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
                     Log.d("asd", String.valueOf(list.size()));
                 }
                 data.setValue(list);
+                dates.setValue(list1);
                 Log.d("HashdataVM", String.valueOf(data.getValue().hashCode()));
             } else {
                 Log.d("ERR", Objects.requireNonNull(Objects.requireNonNull(task.getException()).getMessage()));
@@ -118,12 +117,49 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
     public MutableLiveData<List<SubTasks>> getSubsVM(){
         return subTasks;
     }
-    public boolean ItemComplete(int id){
-            if (0 <= id && id < documentSnapshot.size()) {
-                QueryDocumentSnapshot doc = documentSnapshot.get(id);
-                return completeTask.execute(doc);
+
+    public Task<DocumentSnapshot> ItemComplete(int id){
+        List<DataGetModelTasks> currentData = data.getValue();
+        QueryDocumentSnapshot yourQueryDocumentSnapshot = documentSnapshot.get(id);
+        completeTask.execute(yourQueryDocumentSnapshot, new UpdateCallback() {
+            @Override
+            public void onUpdateSuccess(DocumentSnapshot document) {
+                // Обновите ваш LiveData в ViewModel с использованием updatedSnapshot
+                // ...
+                if (document != null) {
+                    Object taskStepsObject = document.get("TaskSteps");
+                    Object taskCompletedObject = document.get("TaskCompleted");
+                    String completeLast = document.get("CompleteLast") != null ? document.get("CompleteLast").toString() : "";
+
+                    if (taskStepsObject != null && taskCompletedObject != null) {
+                        int a = Integer.parseInt(taskStepsObject.toString());
+                        int b = Integer.parseInt(taskCompletedObject.toString());
+
+                        float prgrs2 = (((float) a / b) * 100);
+                        String last = document.get("CompleteLast").toString();
+                        String l = last.substring(last.lastIndexOf('_') + 1);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis(Long.parseLong(l));
+                        Date d = cal.getTime();
+                        DateFormat inputFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:mm:ss.SSS");
+                        DataGetModelTasks modl = new DataGetModelTasks(document.get("TaskName").toString(), document.get("TaskSteps").toString(),
+                                document.get("TaskCompleted").toString() + "     " + (int) prgrs2 + "% ", inputFormat.format(d), (int) prgrs2, new SubTasks());
+                        currentData.set(id, modl);
+                        data.setValue(currentData);
+                    } else {
+                        currentData.remove(id);
+                        data.setValue(currentData);
+                    }
+                }
             }
-        return false;
+
+            @Override
+            public void onUpdateFailure(Exception e) {
+                // Обработка ошибок
+                Log.e("Err0", e.getMessage().toString());
+            }
+        });
+        return null;
     }
     public void setSubTasksId(int id){
 //           subTasks.setValue((List<SubTasks>) documentSnapshot.get(id).get("SubTasks"));
@@ -150,4 +186,5 @@ MutableLiveData<List<SubTasks>> subTasks = new MutableLiveData<>();
            });
 //           Log.d("st= ", documentSnapshot.get(id).get("SubTasks").toString());
     }
+
 }

@@ -94,7 +94,7 @@ public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements Vi
         viewHolder.txtType.setText(dataModel.getType());
         viewHolder.txtVersion.setText(dataModel.getStp());
         viewHolder.txtview.setText(dataModel.get_id());
-        viewHolder.progressBar.setSecondaryProgress(dataModel.getPrgrs());
+        viewHolder.progressBar.setSecondaryProgress(dataModel.getPrgrs() != null ? dataModel.getPrgrs().intValue() : 0);
         // Return the completed view to render on screen
         return convertView;
     }

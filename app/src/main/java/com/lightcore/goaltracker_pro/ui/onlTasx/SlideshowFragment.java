@@ -3,10 +3,14 @@ package com.lightcore.goaltracker_pro.ui.onlTasx;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -17,10 +21,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,6 +42,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.FragmentSlideshowBinding;
 import com.lightcore.goaltracker_pro.ui.Adapt.CustomAdapter;
+import com.lightcore.goaltracker_pro.ui.Adapt.NotificationService;
 import com.lightcore.goaltracker_pro.ui.Model.DataGetModelTasks;
 import com.lightcore.goaltracker_pro.ui.Model.SubTasks;
 
@@ -78,23 +86,15 @@ public class SlideshowFragment extends Fragment {
             lv.setAdapter(adapter);
         });
         lv = root.findViewById(R.id.olv);
-        lv.setOnItemClickListener((parent, view, position, id) ->{
-//                onCompliteTask((int) id);
-            boolean s = slideshowViewModel.ItemComplete((int)id);
-            if (s){
-                slideshowViewModel.get();
-                Log.d("msg", "s=true");
-            }
-            slideshowViewModel.get();
-                Log.d("item id", String.valueOf(id));
-                });
+        lv.setOnItemClickListener((parent, view, position, id) -> {
+            slideshowViewModel.ItemComplete((int) id);
+        });
         lv.setOnItemLongClickListener((parent, view, position, id) -> {
             slideshowViewModel.setSubTasksId((int) id);
             Navigation.findNavController(getView()).navigate(R.id.SecondFragment);
             return false;
         });
         ImageButton fab = root.findViewById(R.id.ofab);
-
         fab.setOnClickListener(view -> {
         LayoutInflater li = LayoutInflater.from(getContext());
         View promptsView = li.inflate(R.layout.add_dialog, null);
@@ -108,7 +108,6 @@ public class SlideshowFragment extends Fragment {
         final EditText inputCompleted = promptsView.findViewById(R.id.taskComplete);
         final Switch sw = promptsView.findViewById(R.id.onlSwitch);
         final EditText inputUID = promptsView.findViewById(R.id.uid2);
-        final EditText inputTime = promptsView.findViewById(R.id.editTextTime);
         inputUID.setVisibility(View.INVISIBLE);
         sw.setOnCheckedChangeListener((buttonView, isChecked12) -> {
             if(isChecked12) {
@@ -117,6 +116,9 @@ public class SlideshowFragment extends Fragment {
                 inputUID.setVisibility(View.INVISIBLE);
             }
         });
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getContext(), NotificationService.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
         //Настраиваем сообщение в диалоговом окне:
         mDialogBuilder
                 .setCancelable(false)
@@ -142,15 +144,38 @@ public class SlideshowFragment extends Fragment {
                                                 subTasksList.add(new SubTasks("", "|"));
                                                 data1.put("SubTasks", subTasksList);
 //                                                data1.put("TaskID", list2.size());
-                                                int a = Integer.parseInt(inpuSteps.getText().toString());
-                                                int b = Integer.parseInt(inputCompleted.getText().toString());
-                                                Float prgrs3 = (((float)a/b)*100);
-                                                String last = String.valueOf(d);
-                                                String l = last.substring(last.lastIndexOf('_')+1);
-                                                Calendar cal = Calendar.getInstance();
-                                                cal.setTimeInMillis(Long.valueOf(l));
-                                                Date s= cal.getTime();
-                                                DateFormat inputFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:mm:ss.SSS");
+
+//                                                Calendar calendar = Calendar.getInstance();
+//                                                calendar.setTimeInMillis(System.currentTimeMillis());
+//                                                calendar.set(Calendar.HOUR, inputTime.getHour());
+//                                                calendar.set(Calendar.MINUTE, inputTime.getMinute());
+//                                                Log.d("TASD", calendar.getTime().toString());
+//                                                Log.d("TASD2", String.valueOf(calendar.getTime().getTime()));
+//                                                if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+//                                                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+//                                                }
+//                                                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                                                        AlarmManager.INTERVAL_DAY, pendingIntent);
+//                                                Intent intent = new Intent(getContext(), NotificationService.class);
+//                                                PendingIntent pendingIntent = PendingIntent.getService(
+//                                                        getContext(),
+//                                                        0,
+//                                                        intent,
+//                                                        PendingIntent.FLAG_IMMUTABLE
+//                                                );
+//
+//                                                long startTime = calendar.getTimeInMillis() - System.currentTimeMillis();  // Здесь устанавливается время уведомления
+//                                                long interval = AlarmManager.INTERVAL_DAY;
+////                                                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ContextCompat.getSystemService(getContext(), NotificationManager.class));
+//
+//                                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//                                                alarmManager.setInexactRepeating(
+//                                                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                                                        SystemClock.elapsedRealtime() + startTime,
+//                                                        interval,
+//                                                        pendingIntent
+//                                                );
+//                                                Log.d("TAF0", String.valueOf(calendar.getTimeInMillis()-System.currentTimeMillis()));
 //                                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 //                                                alarmManager.setInexactRepeating(
 //                                                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -184,6 +209,13 @@ public class SlideshowFragment extends Fragment {
     });
         return root;
     }
+
+
+    private void createNotificationChannel() {
+
+    }
+
+
     private void updateDB(){
 //        adapter = new CustomAdapter(list2, getContext());
         CollectionReference collection = fdb.collection("tasx");

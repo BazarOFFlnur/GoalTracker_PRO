@@ -2,6 +2,7 @@ package com.lightcore.goaltracker_pro.ui.Adapt;
 
 import android.Manifest;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -29,7 +30,6 @@ public class NotificationService extends IntentService {
 
     private void sendNotification() {
         createNotificationChannel();
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channelId")
                 .setSmallIcon(R.drawable.asd)
                 .setContentTitle("Daily Notification")

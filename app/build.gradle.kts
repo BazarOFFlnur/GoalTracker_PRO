@@ -29,8 +29,8 @@ android {
         applicationId = "com.lightcore.goaltracker_pro"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "2"
+        versionCode = 3
+        versionName = "3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("release")

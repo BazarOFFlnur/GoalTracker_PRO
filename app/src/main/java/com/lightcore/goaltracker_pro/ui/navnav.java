@@ -1,5 +1,8 @@
 package com.lightcore.goaltracker_pro.ui;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -74,10 +77,8 @@ public class navnav extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
 //        Tasf tasf;
         Log.d("RSd", tsd.exec());
-
         mAuth = FirebaseAuth.getInstance();
         binding = ActivityNavnavBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
