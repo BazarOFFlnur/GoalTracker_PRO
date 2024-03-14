@@ -27,4 +27,5 @@
     <string name="completed">выполнено:</string>
     <string name="out_of">из</string>
     <string name="last">последнее:</string>
+    <string name="copy_mail">Ваш адрес почты скопирован</string>
 </resources>

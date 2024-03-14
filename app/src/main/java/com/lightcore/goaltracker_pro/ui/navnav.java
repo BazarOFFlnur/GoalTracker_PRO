@@ -76,75 +76,65 @@ public class navnav extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        Tasf tasf;
         Log.d("RSd", tsd.exec());
         mAuth = FirebaseAuth.getInstance();
-        binding = ActivityNavnavBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.appBarNavnav.toolbar);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
-        View v = navigationView.getHeaderView(0);
-        mSignInButton = v.findViewById(R.id.sign_in_button);
-        dname = v.findViewById(R.id.dname);
-        demail = v.findViewById(R.id.Email);
-        if (mAuth.getCurrentUser()==null){
-            mSignInButton.setVisibility(View.VISIBLE);
-            dname.setVisibility(View.INVISIBLE);
-            demail.setVisibility(View.INVISIBLE);
-        } else {
-            dname.setText(mAuth.getCurrentUser().getDisplayName());
-            demail.setText(mAuth.getCurrentUser().getEmail());
-            demail.setOnClickListener(v1 -> {
-                ClipboardManager clipboard = (ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("", demail.getText().toString());
-                clipboard.setPrimaryClip(clip);
-            });
-            mSignInButton.setVisibility(View.INVISIBLE);
-            dname.setVisibility(View.VISIBLE);
-            demail.setVisibility(View.VISIBLE);
-        }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                 R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
-//        lv.findViewById(R.id.lv);
-//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                return false;
-//            }
-//        });
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Запускаем намерение для входа
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+            binding = ActivityNavnavBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
+            setSupportActionBar(binding.appBarNavnav.toolbar);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            DrawerLayout drawer = binding.drawerLayout;
+            NavigationView navigationView = binding.navView;
+            View v = navigationView.getHeaderView(0);
+            mSignInButton = v.findViewById(R.id.sign_in_button);
+            dname = v.findViewById(R.id.dname);
+            demail = v.findViewById(R.id.Email);
+            if (mAuth.getCurrentUser() == null) {
+                mSignInButton.setVisibility(View.VISIBLE);
+                dname.setVisibility(View.INVISIBLE);
+                demail.setVisibility(View.INVISIBLE);
+            } else {
+                dname.setText(mAuth.getCurrentUser().getDisplayName());
+                demail.setText(mAuth.getCurrentUser().getEmail());
+                demail.setOnClickListener(v1 -> {
+                    ClipboardManager clipboard = (ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("", demail.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, R.string.copy_mail, Toast.LENGTH_SHORT).show();
+                });
+                mSignInButton.setVisibility(View.INVISIBLE);
+                dname.setVisibility(View.VISIBLE);
+                demail.setVisibility(View.VISIBLE);
             }
-        });
+
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_gallery, R.id.nav_slideshow)
+                    .setOpenableLayout(drawer)
+                    .build();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(navigationView, navController);
+
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            mSignInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, RC_SIGN_IN);
+                }
+            });
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         // Проверяем, вошел ли пользователь, и обновляем интерфейс
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);

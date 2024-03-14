@@ -94,7 +94,7 @@ public class ItemFragment extends Fragment implements RecycAdapter.OnItemCheckLi
             View promptsView = li.inflate(R.layout.add_subtasx, null);
 
             //Создаем AlertDialog
-            AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialog);
 
             //Настраиваем prompt.xml для нашего AlertDialog:
             mDialogBuilder.setView(promptsView);

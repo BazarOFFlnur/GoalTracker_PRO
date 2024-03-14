@@ -27,4 +27,5 @@
     <string name="completed">completed:</string>
     <string name="out_of">out of</string>
     <string name="last">last:</string>
+    <string name="copy_mail">Copy mail address success</string>
 </resources>

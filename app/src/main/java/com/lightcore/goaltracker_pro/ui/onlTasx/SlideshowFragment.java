@@ -76,15 +76,17 @@ public class SlideshowFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        if (mAuth.getCurrentUser()!=null) {
 //        updateDB();
 //        fdb = FirebaseFirestore.getInstance();
-        slideshowViewModel = new ViewModelProvider(getActivity()).get(SlideshowViewModel.class);
-        MutableLiveData<List<DataGetModelTasks>> data = slideshowViewModel.get();
-        data.observe(getViewLifecycleOwner(), dataModels -> {
-            adapter = new CustomAdapter(dataModels, getContext());
-            adapter.notifyDataSetChanged();
-            lv.setAdapter(adapter);
-        });
+            slideshowViewModel = new ViewModelProvider(getActivity()).get(SlideshowViewModel.class);
+            MutableLiveData<List<DataGetModelTasks>> data = slideshowViewModel.get();
+            data.observe(getViewLifecycleOwner(), dataModels -> {
+                adapter = new CustomAdapter(dataModels, getContext());
+                adapter.notifyDataSetChanged();
+                lv.setAdapter(adapter);
+            });
+        }
         lv = root.findViewById(R.id.olv);
         lv.setOnItemClickListener((parent, view, position, id) -> {
             slideshowViewModel.ItemComplete((int) id);
@@ -98,7 +100,7 @@ public class SlideshowFragment extends Fragment {
         fab.setOnClickListener(view -> {
         LayoutInflater li = LayoutInflater.from(getContext());
         View promptsView = li.inflate(R.layout.add_dialog, null);
-        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialog);
 
         //Настраиваем prompt.xml для нашего AlertDialog:
         mDialogBuilder.setView(promptsView);
@@ -116,9 +118,6 @@ public class SlideshowFragment extends Fragment {
                 inputUID.setVisibility(View.INVISIBLE);
             }
         });
-            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getContext(), NotificationService.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
         //Настраиваем сообщение в диалоговом окне:
         mDialogBuilder
                 .setCancelable(false)

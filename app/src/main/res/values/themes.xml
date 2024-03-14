@@ -1,18 +1,39 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.GoalTracker_PRO" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Base.Theme.GoalTracker_PRO" parent="Theme.Material3.DayNight.NoActionBar">
 <!--         Customize your light theme here. -->
          <item name="colorPrimary">@color/transparent</item>
+         <item name="textFillColor">@color/black</item>
     </style>
-
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+        <item name="android:textColorPrimary">@android:color/holo_green_dark</item>
+        <item name="editTextColor">@android:color/holo_green_dark</item>
+        <item name="android:textColorHint">@android:color/holo_green_dark</item>
+        <!-- Дополнительные атрибуты стиля для кнопок, если необходимо -->
+    </style>
     <style name="Theme.GoalTracker_PRO" parent="Base.Theme.GoalTracker_PRO" />
 
     <style name="Theme.GoalTracker_PRO.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="Theme.GoalTracker_PRO.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar">
+        <!-- Для темной темы -->
+        <!-- Для светлой темы -->
+<!--        <item name="colorSurface">@android:color/darker_gray</item>-->
+        <item name="android:textColorPrimary">@android:color/holo_green_dark</item>
+    </style>
 
-    <style name="Theme.GoalTracker_PRO.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<!--    <style name="Theme.GoalTracker_PRO.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >-->
+<!--        <item name="android:textColor">@color/white</item>-->
+<!--    </style>-->
 
-    <style name="Theme.GoalTracker_PRO.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+<!--    <style name="Theme.GoalTracker_PRO.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >-->
+<!--        <item name="backgroundColor">@android:color/holo_red_dark</item>>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--&lt;!&ndash;    <item name="android:textColor">@color/black</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="android:textColorPrimary">@color/black</item>&ndash;&gt;-->
+<!--    </style>-->
 </resources>
