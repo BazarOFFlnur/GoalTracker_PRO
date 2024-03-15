@@ -79,7 +79,6 @@ public class navnav extends AppCompatActivity {
 //        Tasf tasf;
         Log.d("RSd", tsd.exec());
         mAuth = FirebaseAuth.getInstance();
-
             binding = ActivityNavnavBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
             setSupportActionBar(binding.appBarNavnav.toolbar);
@@ -122,19 +121,15 @@ public class navnav extends AppCompatActivity {
                     .build();
 
             mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-            mSignInButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, RC_SIGN_IN);
-                }
+            mSignInButton.setOnClickListener(v12 -> {
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             });
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         // Проверяем, вошел ли пользователь, и обновляем интерфейс
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
@@ -165,36 +160,17 @@ public class navnav extends AppCompatActivity {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         // Входим с помощью учетных данных
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Вход успешен, обновляем интерфейс с данными пользователя
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-//                            if (mAuth.getCurrentUser()==null){
-//                                mSignInButton.setVisibility(View.VISIBLE);
-//                                dname.setVisibility(View.INVISIBLE);
-//                                demail.setVisibility(View.INVISIBLE);
-//                            } else {
-//                                dname.setText(mAuth.getCurrentUser().getDisplayName());
-//                                demail.setText(mAuth.getCurrentUser().getEmail());
-//                                demail.setOnClickListener(v1 -> {
-//                                    ClipboardManager clipboard = (ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-//                                    ClipData clip = ClipData.newPlainText("", demail.getText().toString());
-//                                    clipboard.setPrimaryClip(clip);
-//                                });
-//                                mSignInButton.setVisibility(View.INVISIBLE);
-//                                dname.setVisibility(View.VISIBLE);
-//                                demail.setVisibility(View.VISIBLE);
-//                            }
-                        } else {
-                            // Вход не удался, выводим сообщение об ошибке
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Вход успешен, обновляем интерфейс с данными пользователя
+                        Log.d(TAG, "signInWithCredential:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        // Вход не удался, выводим сообщение об ошибке
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(getApplicationContext(), "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        updateUI(null);
                     }
                 });
     }

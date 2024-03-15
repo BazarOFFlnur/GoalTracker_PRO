@@ -3,7 +3,7 @@
     <string name="action_settings">Выйти</string>
     <!-- Strings used for fragments for navigation -->
 
-    <string name="default_web_client_id" translatable="false">538716671235-3hkdhpjemi8qc2abbo8k3rvb4kfgktk0.apps.googleusercontent.com</string>
+<!--    <string name="default_web_client_id" translatable="false">538716671235-3hkdhpjemi8qc2abbo8k3rvb4kfgktk0.apps.googleusercontent.com</string>-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_navnav">GoalTracker_PRO</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
