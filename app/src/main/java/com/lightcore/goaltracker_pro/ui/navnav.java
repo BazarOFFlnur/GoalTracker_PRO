@@ -44,6 +44,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 //import com.lightcore.goaltracker_pro.test.Tefs;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.ActivityNavnavBinding;
+import com.lightcore.goaltracker_pro.ui.Profile.Profile;
 import com.lightcore.goaltracker_pro.ui.testr.Sec;
 import com.lightcore.goaltracker_pro.ui.testr.Tsd;
 //import com.lightcore.goaltracker_pro.ui.testr.Tasf;
@@ -79,6 +80,7 @@ public class navnav extends AppCompatActivity {
 //        Tasf tasf;
         Log.d("RSd", tsd.exec());
         mAuth = FirebaseAuth.getInstance();
+//        if (mAuth.getCurrentUser()!=null) {
             binding = ActivityNavnavBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
             setSupportActionBar(binding.appBarNavnav.toolbar);
@@ -108,7 +110,7 @@ public class navnav extends AppCompatActivity {
             }
 
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_gallery, R.id.nav_slideshow)
+                    R.id.profile, R.id.nav_gallery, R.id.nav_slideshow)
                     .setOpenableLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
@@ -125,6 +127,7 @@ public class navnav extends AppCompatActivity {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             });
+//        }
     }
 
     @Override
@@ -132,8 +135,18 @@ public class navnav extends AppCompatActivity {
         super.onStart();
         // Проверяем, вошел ли пользователь, и обновляем интерфейс
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser == null) {
+            // Если пользователь не вошел в систему, переходим к фрагменту профиля
+            mSignInButton.performClick();
+//            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
+//            navController.navigate(R.id.profile);
+        } else {
+            // Обновляем интерфейс для авторизованного пользователя
+            updateUI(currentUser);
+            Profile.newInstance(currentUser.getUid(), currentUser.getDisplayName());
+        }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

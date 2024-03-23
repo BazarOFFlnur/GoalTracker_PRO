@@ -28,4 +28,6 @@
     <string name="out_of">out of</string>
     <string name="last">last:</string>
     <string name="copy_mail">Copy mail address success</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

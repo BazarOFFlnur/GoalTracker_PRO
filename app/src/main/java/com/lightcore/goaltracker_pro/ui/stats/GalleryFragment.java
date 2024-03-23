@@ -1,9 +1,5 @@
 package com.lightcore.goaltracker_pro.ui.stats;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,24 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.Filter;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.FragmentGalleryBinding;
 import com.lightcore.goaltracker_pro.ui.Adapt.EventDecorator;
-import com.lightcore.goaltracker_pro.ui.Model.DataGetModelTasks;
+import com.lightcore.goaltracker_pro.ui.Adapt.StatsAdapter;
+import com.lightcore.goaltracker_pro.ui.Model.StatForDayModel;
 import com.lightcore.goaltracker_pro.ui.onlTasx.SlideshowViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -40,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -49,49 +34,46 @@ public class GalleryFragment extends Fragment {
     SlideshowViewModel slideshowViewModel;
     private FragmentGalleryBinding binding;
     MaterialCalendarView calendarView;
-    SQLiteDatabase db;
-    private FirebaseFirestore fdb = FirebaseFirestore.getInstance();
-    private FirebaseAuth mAuth;
-    String iid, sdates;
+    RecyclerView recyclerView;
+    StatsAdapter statsAdapter;
 
-    List<String> dates = new ArrayList<>();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        BarChart chart = root.findViewById(R.id.chart);
-        mAuth = FirebaseAuth.getInstance();
         calendarView = root.findViewById(R.id.cvv);
+        recyclerView = root.findViewById(R.id.statForDay);
         slideshowViewModel = new ViewModelProvider(getActivity()).get(SlideshowViewModel.class);
         MutableLiveData<List<String>> data = slideshowViewModel.getDates();
         List<BarEntry> entries = new ArrayList<>();
+//        List<String> arr = new ArrayList<>();
+        List<StatForDayModel> dayModels = new ArrayList<>();
         data.observe(getViewLifecycleOwner(), dataGetModelTasks -> {
             for (String task : dataGetModelTasks) {
-                sdates = task;
-                String[] arr;
-                if (sdates!=null){
-                    arr = sdates.split("_");
+                if (task!=null){
+                    String[] arr = task.split("_");
                     HashSet<CalendarDay> set = new HashSet<>();
-                    for (int x = 0; x < arr.length; x++) {
+                    for (String s : arr) {
                         Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.valueOf(arr[x]));
+                        cal.setTimeInMillis(Long.parseLong(s));
                         Log.d("Day type", cal.getTime().toString());
-                        CalendarDay day = CalendarDay.from(cal);
+                        CalendarDay day = (CalendarDay.from(cal));
                         set.add(day);
+//                        dayf.add(String.valueOf(day.getDay()));
+//                        month.add(String.valueOf(day.getMonth())); //TODO refactor to string
                         entries.add(new BarEntry(day.getDay(), arr.length));
                         Log.d("entri", entries.get(0).toString());
-                        BarDataSet dataSet = new BarDataSet((List<BarEntry>) entries, "Task"); // add entries to dataset
-                        dataSet.setColor(Color.BLUE);
-                        dataSet.setValueTextColor(Color.BLUE);
-                        BarData lineData = new BarData(dataSet);
-                        chart.setData(lineData);
-                        chart.invalidate();
                         EventDecorator eventDecorator = new EventDecorator(set);
                         calendarView.addDecorator(eventDecorator);
                         calendarView.invalidateDecorators();
+                        dayModels.add(new StatForDayModel(String.valueOf(day.getDay()), String.valueOf(day.getMonth()), arr.length));
+                    }
                 }
+
             }
-        }});
+            statsAdapter = new StatsAdapter(dayModels, getContext());
+            recyclerView.setAdapter(statsAdapter);
+        });
 //            Thread r = new Thread(new Runnable() {
 //                @Override
 //                public void run() {

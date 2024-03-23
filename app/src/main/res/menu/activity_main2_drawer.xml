@@ -12,5 +12,9 @@
             android:id="@+id/nav_gallery"
             android:icon="@android:drawable/ic_menu_day"
             android:title="@string/menu_gallery" />
+        <item
+            android:id="@+id/profile"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="Profile" />
     </group>
 </menu>

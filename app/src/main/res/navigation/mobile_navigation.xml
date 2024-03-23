@@ -33,6 +33,11 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.lightcore.goaltracker_pro.ui.ItemFragment"
-        android:label="sec"
+        android:label="@string/steps_sub_task"
         tools:layout="@layout/fragment_item_list" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.lightcore.goaltracker_pro.ui.Profile.Profile"
+        android:label="Profile"
+        tools:layout="@layout/profile"/>
 </navigation>

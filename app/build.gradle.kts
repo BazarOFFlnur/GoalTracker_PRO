@@ -29,8 +29,8 @@ android {
         applicationId = "com.lightcore.goaltracker_pro"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "3"
+        versionCode = 4
+        versionName = "4"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("release")
@@ -69,6 +69,7 @@ dependencies {
     implementation ("com.github.prolificinteractive:material-calendarview:1.6.1")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
     implementation("androidx.test:runner:1.5.2")
+    implementation ("com.squareup.picasso:picasso:2.71828")
     implementation("com.google.android.libraries.places:places:3.3.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")

@@ -7,15 +7,15 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EventDecorator implements DayViewDecorator {
 
     private final int color = Color.rgb(0, 128, 0);
     private final HashSet<CalendarDay> dates;
 
-    public EventDecorator(Collection<CalendarDay> dates) {
+    public EventDecorator(HashSet<CalendarDay> dates) {
         this.dates = new HashSet<>(dates);
     }
 

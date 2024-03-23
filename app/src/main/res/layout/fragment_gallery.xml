@@ -24,10 +24,13 @@
 
             </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/chart"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/statForDay"
                 android:layout_width="match_parent"
-                android:layout_height="230dp" />
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal" />
+
         </LinearLayout>
     </ScrollView>
 
