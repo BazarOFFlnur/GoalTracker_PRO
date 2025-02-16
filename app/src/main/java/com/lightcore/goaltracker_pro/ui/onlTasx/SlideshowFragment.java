@@ -1,18 +1,7 @@
 package com.lightcore.goaltracker_pro.ui.onlTasx;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,15 +28,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.FragmentSlideshowBinding;
 import com.lightcore.goaltracker_pro.ui.Adapt.CustomAdapter;
-import com.lightcore.goaltracker_pro.ui.Adapt.NotificationService;
 import com.lightcore.goaltracker_pro.ui.Model.DataGetModelTasks;
 import com.lightcore.goaltracker_pro.ui.Model.SubTasks;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +65,12 @@ public class SlideshowFragment extends Fragment {
             data.observe(getViewLifecycleOwner(), dataModels -> {
                 adapter = new CustomAdapter(dataModels, getContext());
                 adapter.notifyDataSetChanged();
+                adapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        slideshowViewModel.ItemDeleted(position);
+                    }
+                });
                 lv.setAdapter(adapter);
             });
         }
@@ -96,7 +83,10 @@ public class SlideshowFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(R.id.SecondFragment);
             return false;
         });
+
         ImageButton fab = root.findViewById(R.id.ofab);
+
+
         fab.setOnClickListener(view -> {
         LayoutInflater li = LayoutInflater.from(getContext());
         View promptsView = li.inflate(R.layout.add_dialog, null);
@@ -208,6 +198,7 @@ public class SlideshowFragment extends Fragment {
     });
         return root;
     }
+
 
 
     private void createNotificationChannel() {

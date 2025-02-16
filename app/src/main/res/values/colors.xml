@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00ffffff</color>
+    <color name="calendar_header_text">#000000</color> <!-- Чёрный для светлой темы -->
+    <color name="calendar_week_text">#444444</color> <!-- Тёмно-серый -->
+    <color name="calendar_date_text">#000000</color> <!-- Чёрный -->
 </resources>

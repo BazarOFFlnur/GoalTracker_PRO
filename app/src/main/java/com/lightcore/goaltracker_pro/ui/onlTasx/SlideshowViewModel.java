@@ -84,7 +84,7 @@ MutableLiveData<List<String>> dates = new MutableLiveData<>();
                     float prgrs2 = (((float) a / b) * 100);
                     String last = document.get("CompleteLast").toString();
                     String l = last.substring(last.lastIndexOf('_') + 1);
-                    list1.add(l);
+                    list1.add(last);
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(Long.parseLong(l));
                     Date d = cal.getTime();
@@ -118,6 +118,15 @@ MutableLiveData<List<String>> dates = new MutableLiveData<>();
         return subTasks;
     }
 
+    public void ItemDeleted(int pos){
+        List<DataGetModelTasks> currentData = data.getValue();
+        QueryDocumentSnapshot documentSnapshot1 = documentSnapshot.get(pos);
+        FirebaseFirestore fdb = FirebaseFirestore.getInstance();
+        DocumentReference ref = fdb.collection("tasx").document(documentSnapshot1.getId());
+        ref.delete();
+        currentData.remove(pos);
+        data.postValue(currentData);
+    }
     public Task<DocumentSnapshot> ItemComplete(int id){
         List<DataGetModelTasks> currentData = data.getValue();
         QueryDocumentSnapshot yourQueryDocumentSnapshot = documentSnapshot.get(id);

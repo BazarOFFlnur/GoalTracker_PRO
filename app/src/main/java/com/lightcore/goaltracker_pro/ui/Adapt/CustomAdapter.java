@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements Vi
 
     private List<DataGetModelTasks> dataSet;
     Context mContext;
+    private OnItemClickListener listener;
 
     // View lookup cache
     private static class ViewHolder {
@@ -25,6 +28,8 @@ public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements Vi
         TextView txtview;
         TextView txtVersion;
         ProgressBar progressBar;
+        ImageButton button;
+
     }
 
     public CustomAdapter(List<DataGetModelTasks> data, Context context) {
@@ -71,6 +76,7 @@ public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements Vi
             viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.tskSumm);
             viewHolder.txtview = convertView.findViewById(R.id.tskview);
             viewHolder.progressBar = convertView.findViewById(R.id.progressBar);
+            viewHolder.button = convertView.findViewById(R.id.deleteItemForTasx);
             result=convertView;
 
             convertView.setTag(viewHolder);
@@ -95,7 +101,21 @@ public class CustomAdapter extends ArrayAdapter<DataGetModelTasks> implements Vi
         viewHolder.txtVersion.setText(dataModel.getStp());
         viewHolder.txtview.setText(dataModel.get_id());
         viewHolder.progressBar.setSecondaryProgress(dataModel.getPrgrs() != null ? dataModel.getPrgrs().intValue() : 0);
+        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener!=null){
+                    listener.onItemClick(position);
+                }
+            }
+        });
         // Return the completed view to render on screen
         return convertView;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

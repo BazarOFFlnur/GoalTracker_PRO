@@ -1,7 +1,11 @@
 package com.lightcore.goaltracker_pro.ui.Profile;
 
+import static com.lightcore.goaltracker_pro.ui.navnav.RC_SIGN_IN;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.lightcore.goaltracker_pro.R;
+import com.lightcore.goaltracker_pro.ui.navnav;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -93,6 +101,14 @@ public class Profile extends Fragment {
             reglayout.setVisibility(View.VISIBLE);
             deflayout.setVisibility(View.INVISIBLE);
             Log.d("TAG", uname+ "sd");
+            SignInButton signInButton = (SignInButton) root.findViewById(R.id.sign_in_button_in_profile);
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
         }
         // Inflate the layout for this fragment
         return view;

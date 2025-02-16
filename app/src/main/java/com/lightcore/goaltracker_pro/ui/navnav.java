@@ -1,8 +1,5 @@
 package com.lightcore.goaltracker_pro.ui;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -19,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -33,21 +29,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-//import com.lightcore.goaltracker_pro.test.Tefs;
 import com.lightcore.goaltracker_pro.R;
 import com.lightcore.goaltracker_pro.databinding.ActivityNavnavBinding;
 import com.lightcore.goaltracker_pro.ui.Profile.Profile;
-import com.lightcore.goaltracker_pro.ui.testr.Sec;
+import com.lightcore.goaltracker_pro.ui.onlTasx.SlideshowFragment;
 import com.lightcore.goaltracker_pro.ui.testr.Tsd;
-//import com.lightcore.goaltracker_pro.ui.testr.Tasf;
 
 import java.util.Objects;
 
@@ -62,12 +54,12 @@ public class navnav extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavnavBinding binding;
     private static final String TAG = "MainActivity";
-    private static final int RC_SIGN_IN = 9001;
+    public static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
+    public GoogleSignInClient mGoogleSignInClient;
     TextView demail, dname;
     SignInButton mSignInButton;
-    ListView lv;
+    NavController navController;
     @Inject
     Tsd tsd;
 
@@ -80,7 +72,6 @@ public class navnav extends AppCompatActivity {
 //        Tasf tasf;
         Log.d("RSd", tsd.exec());
         mAuth = FirebaseAuth.getInstance();
-//        if (mAuth.getCurrentUser()!=null) {
             binding = ActivityNavnavBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
             setSupportActionBar(binding.appBarNavnav.toolbar);
@@ -113,10 +104,10 @@ public class navnav extends AppCompatActivity {
                     R.id.profile, R.id.nav_gallery, R.id.nav_slideshow)
                     .setOpenableLayout(drawer)
                     .build();
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
-
+//            navController.navigate(R.id.slideshowFragment);
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -137,9 +128,8 @@ public class navnav extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             // Если пользователь не вошел в систему, переходим к фрагменту профиля
-            mSignInButton.performClick();
-//            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navnav);
-//            navController.navigate(R.id.profile);
+//            mSignInButton.performClick();
+//            navController.navigate(R.id.slideshowFragment);
         } else {
             // Обновляем интерфейс для авторизованного пользователя
             updateUI(currentUser);

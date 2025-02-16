@@ -74,7 +74,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder>{
         // contents of the view with that element
         viewHolder.textView.setText(localDataSet.get(position).getDay());
         viewHolder.textView2.setText(localDataSet.get(position).getWeek());
-        viewHolder.progressBar.setSecondaryProgress(localDataSet.get(position).getProgress() != null ? localDataSet.get(position).getProgress() : 0);
+        viewHolder.progressBar.setProgress(localDataSet.get(position).getProgress() != null ? localDataSet.get(position).getProgress() : 0);
         int max = 0;
         List<Integer> ints = new ArrayList<>();
         for (int i = 0; i<localDataSet.size(); i++){

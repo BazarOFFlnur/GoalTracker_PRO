@@ -24,8 +24,11 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -42,6 +45,10 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         calendarView = root.findViewById(R.id.cvv);
+        calendarView.setHeaderTextAppearance(R.style.CalendarHeaderText);
+        calendarView.setWeekDayTextAppearance(R.style.CalendarWeekText);
+        calendarView.setDateTextAppearance(R.style.CalendarDateText);
+
         recyclerView = root.findViewById(R.id.statForDay);
         slideshowViewModel = new ViewModelProvider(getActivity()).get(SlideshowViewModel.class);
         MutableLiveData<List<String>> data = slideshowViewModel.getDates();
@@ -53,26 +60,91 @@ public class GalleryFragment extends Fragment {
                 if (task!=null){
                     String[] arr = task.split("_");
                     HashSet<CalendarDay> set = new HashSet<>();
-                    for (String s : arr) {
+                    for (int x = 0; x < arr.length; x++) {
                         Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(Long.parseLong(s));
+                        cal.setTimeInMillis(Long.parseLong(arr[x]));
                         Log.d("Day type", cal.getTime().toString());
-                        CalendarDay day = (CalendarDay.from(cal));
+                        CalendarDay day = CalendarDay.from(cal);
                         set.add(day);
 //                        dayf.add(String.valueOf(day.getDay()));
 //                        month.add(String.valueOf(day.getMonth())); //TODO refactor to string
                         entries.add(new BarEntry(day.getDay(), arr.length));
-                        Log.d("entri", entries.get(0).toString());
-                        EventDecorator eventDecorator = new EventDecorator(set);
-                        calendarView.addDecorator(eventDecorator);
-                        calendarView.invalidateDecorators();
-                        dayModels.add(new StatForDayModel(String.valueOf(day.getDay()), String.valueOf(day.getMonth()), arr.length));
-                    }
-                }
+//                        Log.d("entri", entries.get(0).toString());
 
+        String s = "month";
+        switch (day.getMonth()){
+            case 0:{
+                s = "January";
+                break;}
+            case 1:{
+                s = "February";
+                break;
             }
-            statsAdapter = new StatsAdapter(dayModels, getContext());
-            recyclerView.setAdapter(statsAdapter);
+            case 2:{
+                s= "March";
+                break;
+            }
+            case 3:{
+                s="April";
+                break;
+            }
+            case 4:{
+                s="May";
+                break;
+            }
+            case 5:{
+                s="June";
+                break;}
+            case 6:{
+                s="July";
+                break;
+            }
+            case 7:{
+                s="August";
+                break;
+            }
+            case 8:{
+                s="September";
+                break;
+            }
+            case 9:{
+                s="October";
+                break;
+            }
+            case 10:{
+                s="November";
+                break;
+            }
+            case 11:{
+                s="December";
+                break;
+            }
+        }
+                        dayModels.add(new StatForDayModel(String.valueOf(day.getDay()), s, arr.length));
+                    }
+                    Map<String, Integer> dayMonthCountMap = new HashMap<>();
+                    for (StatForDayModel model : dayModels) {
+                        String key = model.getDay() + "-" + model.getWeek(); // Создаем ключ в формате "Day-Month"
+                        dayMonthCountMap.put(key, dayMonthCountMap.getOrDefault(key, 1) + 1); // Увеличиваем счетчик
+                    }
+
+                    List<StatForDayModel> combinedDayModels = new ArrayList<>();
+                    for (Map.Entry<String, Integer> entry : dayMonthCountMap.entrySet()) {
+                        String[] parts = entry.getKey().split("-");
+                        String day = parts[0];
+                        String month = parts[1];
+                        int count = entry.getValue();
+                        combinedDayModels.add(new StatForDayModel(day, month, count));
+                    }
+
+                    EventDecorator eventDecorator = new EventDecorator(set);
+                    calendarView.addDecorator(eventDecorator);
+                    Log.d("prgtrs", combinedDayModels.get(0).getProgress().toString());
+                    statsAdapter = new StatsAdapter(combinedDayModels, getContext());
+                    recyclerView.setAdapter(statsAdapter);
+                    calendarView.invalidateDecorators();
+                }
+            }
         });
 //            Thread r = new Thread(new Runnable() {
 //                @Override

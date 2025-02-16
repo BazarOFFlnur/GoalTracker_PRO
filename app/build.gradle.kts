@@ -4,7 +4,6 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id ("org.jetbrains.kotlin.android") version "1.9.20" apply false
     id("com.google.dagger.hilt.android")
-
 }
 
 android {
@@ -29,8 +28,8 @@ android {
         applicationId = "com.lightcore.goaltracker_pro"
         minSdk = 24
         targetSdk = 34
-        versionCode = 4
-        versionName = "4"
+        versionCode = 8
+        versionName = "8"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         signingConfig = signingConfigs.getByName("release")
